@@ -29,7 +29,6 @@ from typing import List
 from rich.console import Console
 
 from aider import __version__, models, prompts, urls, utils
-from aider.analytics import Analytics
 from aider.commands import Commands
 from aider.exceptions import LiteLLMExceptions
 from aider.history import ChatSummary
@@ -324,7 +323,6 @@ class Coder:
         commands=None,
         summarizer=None,
         total_cost=0.0,
-        analytics=None,
         map_refresh="auto",
         cache_prompts=False,
         num_cache_warming_pings=0,
@@ -339,10 +337,6 @@ class Coder:
         auto_copy_context=False,
         auto_accept_architect=True,
     ):
-        # Fill in a dummy Analytics if needed, but it is never .enable()'d
-        self.analytics = analytics if analytics is not None else Analytics()
-
-        self.event = self.analytics.event
         self.chat_language = chat_language
         self.commit_language = commit_language
         self.commit_before_message = []

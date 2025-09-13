@@ -19,8 +19,6 @@ litellm
 flake8
 importlib_resources
 pyperclip
-posthog
-mixpanel
 pexpect
 json5
 psutil
