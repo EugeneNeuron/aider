@@ -41,7 +41,7 @@ include = ["aider", "aider.*"]
 
 [tool.setuptools.package-data]
 aider = [
-  "resources/*/*",
+  "resources/*",
   "queries/*/*",
 ]
 
