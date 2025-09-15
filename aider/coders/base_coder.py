@@ -986,7 +986,6 @@ class Coder:
         thresh = 2  # seconds
         if self.last_keyboard_interrupt and now - self.last_keyboard_interrupt < thresh:
             self.io.tool_warning("\n\n^C KeyboardInterrupt")
-            self.event("exit", reason="Control-C")
             sys.exit()
 
         self.io.tool_warning("\n\n^C again to exit")
@@ -1411,8 +1410,6 @@ class Coder:
         return True
 
     def send_message(self, inp):
-        self.event("message_send_starting")
-
         # Notify IO that LLM processing is starting
         self.io.llm_started()
 
@@ -1502,7 +1499,6 @@ class Coder:
                     lines = traceback.format_exception(type(err), err, err.__traceback__)
                     self.io.tool_warning("".join(lines))
                     self.io.tool_error(str(err))
-                    self.event("message_send_exception", exception=str(err))
                     return
         finally:
             if self.mdstream:
@@ -2104,16 +2100,6 @@ class Coder:
 
         prompt_tokens = self.message_tokens_sent
         completion_tokens = self.message_tokens_received
-        self.event(
-            "message_send",
-            main_model=self.main_model,
-            edit_format=self.edit_format,
-            prompt_tokens=prompt_tokens,
-            completion_tokens=completion_tokens,
-            total_tokens=prompt_tokens + completion_tokens,
-            cost=self.message_cost,
-            total_cost=self.total_cost,
-        )
 
         self.message_cost = 0.0
         self.message_tokens_sent = 0
